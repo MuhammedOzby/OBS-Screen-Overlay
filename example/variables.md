@@ -29,4 +29,4 @@ Alan adları `[a-zA-Z_][a-zA-Z0-9_]*` biçiminde ve büyük/küçük harf duyarl
 
 ## Durum
 
-Bu aşamada değişken kaydetme ve SSE bağlantısı henüz bağlı değil: yukarıdaki liste yalnızca ileride yapılacak değer/SSE ayarları için bir örnektir; henüz hiç değer yayına uygulanmaz.
+Değişken/değer ve alan başına SSE ayarları düzenleme ekranında kaydedilir. `Yayına uygula`, SSE açık alanları açık OBS sayfalarında yenilemeden günceller. SSE kapalı alanın kayıtlı değeri tam sayfa yenilemesinde yüklenir; açık sayfadaki JavaScript ile yönetilen içerik korunur.

@@ -7,6 +7,8 @@ Builds in a temporary directory; never opens the user's overlay.db.
 import os
 from pathlib import Path
 import socket
+import shutil
+import json
 import subprocess
 import tempfile
 import time
@@ -34,11 +36,14 @@ def run():
         public = f"http://127.0.0.1:{free_port()}"
         while public == admin:
             public = f"http://127.0.0.1:{free_port()}"
-        env = dict(os.environ, ADDR=admin[7:], PUBLIC_ADDR=public[7:],
-                   PUBLIC_ORIGIN=public, ADMIN_ORIGINS=admin,
-                   DB_PATH=str(work / "test.db"), GIN_MODE="release")
+        shutil.copytree(ROOT / "template", work / "template")
+        (work / "configuration.yaml").write_text(
+            json.dumps({"addr": admin[7:], "public_addr": public[7:],
+                        "public_origin": public, "admin_origins": [admin],
+                        "db_path": str(work / "test.db")}), encoding="utf-8")
+        env = dict(os.environ, GIN_MODE="release")
         with (work / "server.log").open("w+") as log:
-            proc = subprocess.Popen([str(app)], cwd=ROOT, env=env, stdout=log, stderr=log)
+            proc = subprocess.Popen([str(app)], cwd=work, env=env, stdout=log, stderr=log)
             try:
                 for _ in range(100):
                     try:

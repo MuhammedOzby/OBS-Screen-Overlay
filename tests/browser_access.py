@@ -7,6 +7,8 @@ import os
 from pathlib import Path
 import re
 import socket
+import shutil
+import json
 import subprocess
 import tempfile
 import time
@@ -36,21 +38,26 @@ def run():
         local = f"http://127.0.0.1:{admin_port}"
         remote = f"http://overlay.test:{admin_port}"
         public = f"http://127.0.0.1:{public_port}"
-        env = dict(os.environ, ADDR=local[7:], PUBLIC_ADDR=public[7:],
-                   PUBLIC_ORIGIN=public, ADMIN_ORIGINS=f"{local},{remote}",
-                   DB_PATH=str(work / "test.db"), GIN_MODE="release")
+        shutil.copytree(ROOT / "template", work / "template")
+        (work / "configuration.yaml").write_text(
+            json.dumps({"addr": local[7:], "public_addr": public[7:],
+                        "public_origin": public, "admin_origins": [local, remote],
+                        "db_path": str(work / "test.db")}), encoding="utf-8")
+        env = dict(os.environ, GIN_MODE="release")
         proc = None
         with (work / "server.log").open("w+") as log:
             def start():
                 nonlocal proc
-                proc = subprocess.Popen([str(binary)], cwd=ROOT, env=env, stdout=log, stderr=log)
+                proc = subprocess.Popen([str(binary)], cwd=work, env=env, stdout=log, stderr=log)
                 for _ in range(100):
                     try:
                         with urllib.request.urlopen(local + "/access", timeout=1):
                             return
                     except (OSError, urllib.error.URLError):
                         if proc.poll() is not None:
-                            raise RuntimeError("Server exited during startup; inspect integration/build")
+                            log.flush()
+                            log.seek(0)
+                            raise RuntimeError(f"Server exited during startup: {log.read()}")
                         time.sleep(.05)
                 raise RuntimeError("Server startup timed out")
 

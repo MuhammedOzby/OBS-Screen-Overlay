@@ -314,3 +314,12 @@ Kabul: Aşağıdaki senaryoların sonucu kayıtlıdır. OBS testi yapılmadıysa
 - Uygulama işleri Terra'ya küçük parçalarda verildi; ana denetçi kaynakları inceleyip düzeltmeler istedi ve son kaynakta test/vet/race/build, 29 Node testi ve iki gerçek Chromium akışını bağımsız çalıştırdı; hepsi geçti. Kanıt: `test_output/20261101T210207Z-access-main-review.md` (son tur başlangıcı UTC 1 Kasım).
 - `README.md` yerel/LAN yapılandırmasını ve HTTP LAN trafiğinin şifreli olmadığını açıklar. Varsayılan yerel bind korundu; mevcut çalışan süreç yeniden başlatılmadı ve LAN erişimi açılmadı.
 - Fiziksel LAN, telefon kamerasıyla QR tarama ve gerçek OBS Browser Source kabulü hâlâ bekliyor. İki host/origin tarayıcı simülasyonu fiziksel LAN kabulü değildir. Commit, push ve deployment yapılmadı.
+
+### 3 Kasım 2026 — GitHub paylaşım hazırlığı
+
+- Ana README İngilizceye çevrildi; README-TR.md, karşılıklı dil bağlantıları ve AI geliştirme notları eklendi.
+- Go 1.27.3, CGO/GCC, çalışma dizini/şablon gereksinimi ve derleme adımları belgelendi.
+- Örnek kullanım YAML yapılandırmasına uyarlandı; eski “SSE henüz yok” açıklaması düzeltildi, boş HTML örneği temizlendi.
+- İki tarayıcı testi özel geçici çalışma dizini, yapılandırma ve veritabanıyla yalıtıldı; standart Python ile gerçek sunucu başlatma/yeniden başlatma kontrolü eklendi.
+- Bağımsız Go test/vet/race ve yalıtım kontrolü geçti. İlk SSE denemesi ortamın yerel soket kısıtıyla engellendi; izinli tekrar geçti. Node.js ve Playwright olmadığı için ilgili JS/gerçek tarayıcı kontrolleri çalıştırılmadı.
+- Kanıt: `test_output/20261103T163707Z-publication-independent-review.md`. Fiziksel LAN, telefon kamerası ve gerçek OBS kabulü bu çalışmayla kapanmaz. Aktif yerel kurulum ve veritabanı değiştirilmedi.

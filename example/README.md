@@ -8,13 +8,21 @@ Bu klasör yalnızca örnek içeriktir: `template.html` (boş, bağımlılıksı
 go run .
 ```
 
-Yönetim paneli `http://127.0.0.1:8080`, OBS sayfaları ayrı listener üzerinde `http://127.0.0.1:8081` adresindedir. Bunlar sırasıyla `ADDR` ve `PUBLIC_ADDR` ile değiştirilebilir. Panelde gösterilen adres `PUBLIC_ORIGIN` ile açıkça ayarlanır; varsayılanı `http://127.0.0.1:8081`'dir ve istek Host başlığından alınmaz. Örneğin:
+Yönetim paneli `http://127.0.0.1:8080`, OBS sayfaları ayrı origin olan `http://127.0.0.1:8081` üzerindedir. Uygulama **proje kökünden** çalıştırılır; `example/` klasöründen değil.
 
-```bash
-ADDR=127.0.0.1:8080 PUBLIC_ADDR=127.0.0.1:8082 PUBLIC_ORIGIN=http://127.0.0.1:8082 DB_PATH=/tmp/overlay-example.db go run .
+Ayarlar çalışma dizinindeki `configuration.yaml` dosyasından okunur. `ADDR`, `PUBLIC_ADDR`, `PUBLIC_ORIGIN` ve `DB_PATH` ortam değişkenleri uygulama ayarlarını değiştirmez.
+
+Örneğin farklı yayın portu ve veritabanı için, YAML içeriğini şöyle düzenleyin ve uygulamayı yeniden başlatın:
+
+```yaml
+addr: "127.0.0.1:8080"
+public_addr: "127.0.0.1:8082"
+public_origin: "http://127.0.0.1:8082"
+admin_origins: []
+db_path: "overlay-example.db"
 ```
 
-`PUBLIC_ORIGIN`, OBS'nin ulaşacağı yayın origin'i olmalı ve yönetim origin'inden ayrı olmalıdır. Veritabanı yolu `DB_PATH` ile ayarlanır; varsayılan `overlay.db`'dir (çalışma dizinine göre).
+`public_origin`, OBS'nin ulaşacağı yayın origin'idir ve yönetim origin'inden ayrı olmalıdır. Göreli `db_path` çalışma dizinine göredir. Kullanım sonrası kişisel ayarları paylaşmadan önce gözden geçirin.
 
 ## Kayıt oluşturma
 

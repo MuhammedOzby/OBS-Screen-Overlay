@@ -16,8 +16,8 @@ için `go test -v ./...` kullanın.
 Playwright Python paketi ve Chrome bulunan ortamda:
 
 ```sh
-python tests/browser_refactor.py
-python tests/browser_access.py
+python3 tests/browser_refactor.py
+python3 tests/browser_access.py
 ```
 
 Chrome yolu `CHROME_BIN` ile değiştirilebilir (varsayılan:
@@ -37,12 +37,16 @@ CSRF/origin yalıtımı, cihaz iptali ve çıkışı gerçek sunucuyla sınar. C
 fiziksel LAN testi değildir. PNG imzası ve fragment bağlantısı kontrol edilir;
 QR görüntüsü taranıp içeriği çözülmez. Gerçek OBS kabulü de yapılmaz. Erişim
 API ve arayüz entegrasyonu henüz tamamlanmadıysa test başarısız/engellidir;
-başarılı sayılmamalıdır. Mevcut ortam örneği:
+başarılı sayılmamalıdır. 
+
+Her iki test, `configuration.yaml` ve panel şablonlarının özel bir kopyasını geçici çalışma dizininde oluşturur; uygulamayı bu dizinde başlatır. Geçici veritabanı ve rastgele loopback portları kullanılır. Erişim testinin yeniden başlatma adımı aynı geçici veritabanını korur. Ortam değişkenleriyle eski yapılandırma yöntemi kullanılmaz.
+
+## Playwright olmadan sunucu yalıtımı
 
 ```sh
-/tmp/opencode/obs-panel-test-venv/bin/python tests/browser_access.py
-/tmp/opencode/obs-panel-test-venv/bin/python tests/browser_refactor.py
+python3 tests/browser_isolation.py
 ```
 
-Çalıştırılan kontrollerin gerçek sonuçlarını benzersiz bir Markdown raporuyla
-`test_output/` altında saklayın.
+Standart Python kitaplığıyla gerçek sunucu başlatma/yeniden başlatma, geçici çalışma dizini ve yapılandırma yalıtımı kontrol edilir. Tarayıcı etkileşimleri stub'dır; bu kontrol DOM, QR tarama veya gerçek tarayıcı kabulü değildir. Go, CGO/GCC ve yerel bağlantı noktası açabilen ortam gerektirir.
+
+Çalıştırılan kontrollerin gerçek sonuçlarını benzersiz bir Markdown raporuyla `test_output/` altında saklayın.
