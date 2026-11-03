@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="tr" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OBS Screen Overlay — {{.Record.Name}} düzenle</title>
+  <link rel="stylesheet" href="/assets/bootstrap-kehribar-gece/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/panel.css">
+  <script src="/assets/access-client.js" defer></script>
+  <script src="/assets/panel.js" defer></script>
+</head>
+<body class="panel-body">
+  <div class="panel-topbar">
+    <nav class="container d-flex flex-wrap align-items-center gap-3">
+      <span class="text-emphasis">OBS Screen Overlay</span>
+      <a class="btn" href="/">Kayıtlar</a>
+      <a class="btn" href="/yeni">Yeni kayıt</a>
+      <a class="btn" href="/cihazlar">Cihazlar</a>
+      <span class="btn theme-primary ms-auto">Yerel geliştirme</span>
+    </nav>
+  </div>
+
+  <main class="panel-main">
+    <div class="container">
+      <div class="card mb-4">
+        <div class="card-body">
+          <p class="text-body-secondary">İsim, tür, değişken değerleri ve SSE tercihleri birlikte kaydedilir. Kaydedilen değerler OBS sayfası açıldığında veya yenilendiğinde görünür; SSE açık alanlar kaydedildiğinde yayına uygulanır.</p>
+          <noscript>
+            <div class="alert alert-warning">Bu formu kullanmak için JavaScript'in açık olması gerekir.</div>
+          </noscript>
+
+          <h1 class="mb-4">Kaydı düzenle</h1>
+          <form id="edit-form" data-id="{{.Record.ID}}" data-revision="{{.Revision}}" novalidate>
+            <div class="mb-3">
+              <label class="form-label" for="record-name">İsim</label>
+              <input type="text" class="form-control" id="record-name" name="name" required value="{{.Record.Name}}">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="record-type">Tür</label>
+              <select class="form-control" id="record-type" name="type">
+                <option value="screen_overlay"{{if eq .Record.Type "screen_overlay"}} selected{{end}}>Ekrana bindirme (screen_overlay)</option>
+                <option value="widget"{{if eq .Record.Type "widget"}} selected{{end}}>Widget</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <span class="form-label">Değişkenler</span>
+              <p class="text-body-secondary">Değişken ekleyebilir, adını veya değerini değiştirebilir ve kaldırabilirsiniz. Adlar HTML içindeki {{"{{alan_adi}}"}} yer tutucularıyla eşleşir.</p>
+              <div id="field-list">
+                {{range .Record.Fields}}
+                <div class="field-row mb-3 d-flex flex-wrap gap-2 align-items-start">
+                  <label class="field-name flex-grow-1 min-vw-25">
+                    Değişken adı
+                    <input type="text" class="form-control" name="field_name" required pattern="[a-zA-Z_][a-zA-Z0-9_]*" value="{{.Name}}">
+                  </label>
+                  <label class="field-value flex-grow-1 min-vw-25">
+                    Değer
+                    <textarea class="form-control" name="field_value" rows="2">{{.Value}}</textarea>
+                  </label>
+                  <label class="field-sse d-flex align-items-center gap-2">
+                    <input type="checkbox" class="form-check-input" name="field_sse"{{if .SSEEnabled}} checked{{end}}>
+                    SSE ile canlı güncelle
+                  </label>
+                  <button type="button" class="btn btn-sm remove-field">Kaldır</button>
+                </div>
+                {{end}}
+              </div>
+              <button type="button" class="btn" id="add-field">Değişken ekle</button>
+            </div>
+
+            <button type="submit" class="btn theme-primary" id="apply-button" disabled>Yayına uygula</button>
+          </form>
+
+          <div id="demo-feedback" role="status" aria-live="polite"></div>
+          <a id="reload-record" class="btn" href="/duzelt/{{.Record.ID}}" hidden>Güncel kaydı yükle</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <p class="text-body-secondary">Yeni HTML ayrı olarak yayınlanır; açık OBS sayfaları yenilenir. Kaydedilmemiş alan değişiklikleri yayınlanmaz.</p>
+          <form id="template-form" novalidate>
+            <div class="mb-3">
+              <label class="form-label" for="html-file">HTML dosyası</label>
+              <input type="file" class="form-control" id="html-file" name="html" accept=".html,text/html" disabled>
+              <p class="text-body-secondary">Yalnızca tek bir HTML dosyası kabul edilir.</p>
+            </div>
+            <button type="submit" class="btn theme-primary" id="publish-button" disabled>Tasarımı yayınla</button>
+          </form>
+
+          <label class="form-label mt-3" for="obs-url">OBS bağlantısı (paylaşılabilir gizli bağlantı)</label>
+          <input id="obs-url" class="form-control mb-2" type="text" value="{{.PublicURL}}" readonly>
+          <div class="d-flex flex-wrap gap-2">
+            <button type="button" class="btn" id="copy-obs-url">OBS bağlantısını kopyala</button>
+            <a class="btn" href="{{.PublicURL}}" target="_blank" rel="noopener noreferrer">Yeni sekmede görüntüle</a>
+          </div>
+          <div id="copy-feedback" role="status" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

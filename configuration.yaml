@@ -1,0 +1,5 @@
+addr: "127.0.0.1:8080"
+public_addr: "127.0.0.1:8081"
+public_origin: "http://127.0.0.1:8081"
+admin_origins: []
+db_path: "overlay.db"

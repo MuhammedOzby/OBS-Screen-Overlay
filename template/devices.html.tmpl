@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="tr" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cihazlar — OBS Screen Overlay</title>
+  <link rel="stylesheet" href="/assets/bootstrap-kehribar-gece/bootstrap.min.css"><link rel="stylesheet" href="/assets/panel.css">
+  <script src="/assets/access-client.js" defer></script><script src="/assets/access.js" defer></script>
+</head>
+<body class="panel-body" data-access-page="devices">
+  <header class="panel-topbar"><nav class="container d-flex flex-wrap gap-3 py-3"><a class="panel-brand" href="/">OBS Screen Overlay</a><a class="btn" href="/">Kayıtlar</a><a class="btn" href="/yeni">Yeni kayıt</a></nav></header>
+  <main class="container py-4" style="max-width: 48rem">
+    <h1>Cihazlar</h1>
+    <p id="remote-note" hidden>Yeni cihazları yerel bilgisayardan eşleştirin ve yönetin.</p>
+    <section id="local-controls" hidden>
+      <h2>Yeni cihaz eşleştir</h2>
+      <label for="pair-origin" class="form-label">Diğer cihazın erişeceği adres</label>
+      <select id="pair-origin" class="form-select mb-2"></select>
+      <p id="lan-warning" hidden>Yalnızca yerel adresler yapılandırılmış. Başka bir cihazın erişebilmesi için LAN yönetim adresini yapılandırın.</p>
+      <button id="create-pairing" class="btn btn-styled theme-primary" type="button">Yeni eşleştirme kodu oluştur</button>
+      <div id="pairing-result" class="my-3" hidden>
+        <img id="pair-qr" alt="Eşleştirme QR kodu" width="256" height="256" style="max-width:100%;height:auto">
+        <p class="fs-2 fw-bold" id="display-code"></p><p id="pair-expiry"></p>
+        <p>Bu kod ve QR tek kullanımlıktır. Yalnızca güvendiğiniz cihazla paylaşın.</p>
+      </div>
+      <h2>Yetkili cihazlar</h2><ul id="devices-list" class="list-group mb-3"></ul>
+      <button id="revoke-all" class="btn btn-subtle" type="button">Tüm cihazların erişimini kaldır</button>
+    </section>
+    <hr><button id="logout" class="btn btn-subtle" type="button">Çıkış yap</button>
+    <p id="access-feedback" class="mt-3" role="status" aria-live="polite"></p>
+    <noscript>Cihaz yönetimi için JavaScript gereklidir.</noscript>
+  </main>
+</body></html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="tr" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Panel erişimi — OBS Screen Overlay</title>
+  <link rel="stylesheet" href="/assets/bootstrap-kehribar-gece/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/panel.css">
+  <script src="/assets/access-client.js" defer></script><script src="/assets/access.js" defer></script>
+</head>
+<body class="panel-body" data-access-page="login">
+  <header class="panel-topbar"><div class="container py-3"><span class="panel-brand">OBS Screen Overlay</span></div></header>
+  <main class="container py-4" style="max-width: 36rem">
+    <h1>Panel erişimi</h1>
+    <p>Diğer cihazda oluşturulan tek kullanımlık kodu girin.</p>
+    <form id="pair-form">
+      <label class="form-label" for="pair-code">6 haneli eşleştirme kodu</label>
+      <input class="form-control mb-3" id="pair-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required>
+      <label class="form-label" for="device-name">Cihaz adı (isteğe bağlı)</label>
+      <input class="form-control mb-3" id="device-name" maxlength="64" autocomplete="off">
+      <button class="btn btn-styled theme-primary" type="submit">Eşleştir</button>
+    </form>
+    <div{{if not .Local}} hidden{{end}}><hr><button class="btn btn-subtle" id="local-login" type="button">Bu bilgisayarda paneli aç</button></div>
+    <p class="mt-3" id="access-feedback" role="status" aria-live="polite"></p>
+    <noscript>Panel erişimi için JavaScript gereklidir.</noscript>
+  </main>
+</body></html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="tr" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OBS Screen Overlay — Yeni kayıt</title>
+  <link rel="stylesheet" href="/assets/bootstrap-kehribar-gece/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/panel.css">
+  <script src="/assets/access-client.js" defer></script>
+  <script src="/assets/panel.js" defer></script>
+</head>
+<body class="panel-body">
+  <div class="panel-topbar">
+    <nav class="container d-flex flex-wrap align-items-center gap-3">
+      <span class="text-emphasis">OBS Screen Overlay</span>
+      <a class="btn" href="/">Kayıtlar</a>
+      <a class="btn" href="/yeni">Yeni kayıt</a>
+      <a class="btn" href="/cihazlar">Cihazlar</a>
+      <span class="btn theme-primary ms-auto">Yerel geliştirme</span>
+    </nav>
+  </div>
+
+  <main class="panel-main">
+    <div class="container">
+      <div class="card">
+        <div class="card-body">
+          <p class="text-body-secondary">Yeni kayıtlar SQLite'ta kalıcı olarak oluşturulur. OBS sayfası kayıtlı değerleri açılışta gösterir; SSE bağlantısı kurulduğunda canlı güncelleme başlar.</p>
+          <noscript>
+            <div class="alert alert-warning">Bu formu kullanmak için JavaScript'in açık olması gerekir.</div>
+          </noscript>
+
+          <h1 class="record-title py-2">Yeni kayıt</h1>
+
+          <form id="new-form" action="/api/pages" method="post" enctype="multipart/form-data" novalidate>
+            <div class="mb-3">
+              <label class="form-label" for="record-name">İsim</label>
+              <input type="text" class="form-control" id="record-name" name="name" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="record-type">Tür</label>
+              <select class="form-control" id="record-type" name="type">
+                <option value="screen_overlay">Ekrana bindirme (screen_overlay)</option>
+                <option value="widget">Widget</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="html-file">HTML dosyası</label>
+              <input type="file" class="form-control" id="html-file" name="html" required accept=".html,text/html">
+              <p class="text-body-secondary">Tek tam HTML dosyası yükleyin; CSS/JS/SVG dosyaya gömülebilir. ZIP veya ayrı asset yüklenmez.</p>
+            </div>
+
+            <button type="submit" class="btn theme-primary" id="create-button" disabled>Kaydı oluştur</button>
+          </form>
+
+          <div id="demo-feedback" role="status" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

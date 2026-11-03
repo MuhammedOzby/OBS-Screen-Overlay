@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="tr" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kayıtlar — OBS Screen Overlay</title>
+  <link rel="stylesheet" href="/assets/bootstrap-kehribar-gece/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/panel.css">
+</head>
+<body class="panel-body">
+
+  <header class="panel-topbar">
+    <div class="container d-flex gap-2 py-3">
+      <a class="panel-brand" href="/">OBS Screen Overlay</a>
+      <span class="badge theme-primary" title="Yerel geliştirme">Yerel geliştirme</span>
+      <nav class="ms-auto d-flex flex-wrap gap-2" aria-label="Panel gezinmesi">
+        <a class="btn btn-subtle active" href="/">Kayıtlar</a>
+        <a class="btn btn-subtle" href="/yeni">Yeni kayıt</a>
+        <a class="btn btn-subtle" href="/cihazlar">Cihazlar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="panel-main container py-4">
+    <p class="alert demo-note">
+      <strong>Yerel geliştirme.</strong> Kayıtlar SQLite'ta kalıcıdır; OBS sayfası kayıtlı değerleri açılışta gösterir. SSE bağlantısı kurulduğunda canlı güncelleme başlar.
+    </p>
+
+    <div class="d-flex gap-2 flex-wrap py-2">
+      <h1 class="record-title">Kayıtlar</h1>
+      <a class="btn btn-styled theme-primary ms-auto" href="/yeni">Yeni kayıt</a>
+    </div>
+
+    <nav class="filter-bar d-flex gap-2 flex-wrap py-2" aria-label="Kayıt türü filtresi">
+      <a class="btn btn-subtle {{if eq .Filter ""}}active{{end}}" href="/">Hepsi</a>
+      <a class="btn btn-subtle {{if eq .Filter "screen_overlay"}}active{{end}}" href="/?filter=screen_overlay">Screen Overlay</a>
+      <a class="btn btn-subtle {{if eq .Filter "widget"}}active{{end}}" href="/?filter=widget">Widget</a>
+    </nav>
+
+    <div id="delete-feedback" role="status" aria-live="polite" class="my-1"></div>
+    <noscript>
+      <p class="alert demo-note">JavaScript kapalı olduğunda Sil düğmeleri devre dışı kalır; kayıtları silmek için JavaScript'i etkinleştirin.</p>
+    </noscript>
+
+    <section class="records-table-section">
+      <div class="table-responsive">
+        <table class="table records-table" aria-label="Kayıt listesi">
+          <thead>
+            <tr>
+              <th scope="col">Kayıt</th>
+              <th scope="col" class="text-end">İşlem</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{range .Records}}
+            <tr>
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <span class="record-name record-title">{{.Name}}</span>
+                  {{if .Label}}<span class="badge theme-primary">{{.Label}}</span>{{end}}
+                </div>
+              </td>
+              <td class="text-end record-actions">
+                <a class="btn btn-styled theme-primary" href="/duzelt/{{.ID}}">Düzenle</a>
+                <button type="button" class="btn btn-styled delete-record" data-id="{{.ID}}" data-name="{{.Name}}" disabled>Sil</button>
+              </td>
+            </tr>
+            {{end}}
+          </tbody>
+        </table>
+      </div>
+      <p class="alert" id="empty-records" {{if .Records}}hidden{{end}}>Bu türde kayıt bulunamadı.</p>
+    </section>
+  </main>
+
+  <footer class="panel-footer container py-3 text-sm">
+    Yalnızca yönetim paneli teması; OBS'a sunulan HTML'lerde kullanılmaz.
+  </footer>
+
+  <script src="/assets/access-client.js" defer></script>
+  <script src="/assets/panel.js" defer></script>
+</body>
+</html>
